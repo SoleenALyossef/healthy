@@ -1,0 +1,1718 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="HealthTech is a modern digital healthcare platform.">
+    
+    <!-- Title handles both languages -->
+    <title>HealthTech | Healthcare Platform</title>
+
+    <!-- AOS CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* =====================================================
+           ROOT & VARIABLES
+        ===================================================== */
+        :root {
+            --primary: #10b981;
+            --primary-dark: #059669;
+            --primary-light: #ecfdf5;
+            --secondary: #0f766e;
+            --accent: #34d399;
+            --white: #ffffff;
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --text: #0f172a;
+            --text-soft: #64748b;
+            --border: #e2e8f0;
+            --danger: #ef4444;
+
+            --radius-sm: 12px;
+            --radius-md: 20px;
+            --radius-lg: 32px;
+
+            --shadow-sm: 0 4px 20px -2px rgba(16, 185, 129, 0.08);
+            --shadow-md: 0 20px 40px -10px rgba(15, 118, 110, 0.15);
+            --shadow-lg: 0 32px 64px -16px rgba(15, 118, 110, 0.22);
+
+            --container: 1280px;
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Dark Mode Variables */
+        body.dark-mode {
+            --primary-light: #064e3b;
+            --white: #1e293b;
+            --bg: #0f172a;
+            --surface: #1e293b;
+            --text: #f8fafc;
+            --text-soft: #94a3b8;
+            --border: #334155;
+            --shadow-sm: 0 4px 20px -2px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 20px 40px -10px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 32px 64px -16px rgba(0, 0, 0, 0.5);
+        }
+
+        /* =====================================================
+           LANGUAGE SWITCHER LOGIC
+        ===================================================== */
+        /* Hide Arabic text when English is active */
+        html[lang="en"] .ar { display: none !important; }
+        /* Hide English text when Arabic is active */
+        html[lang="ar"] .en { display: none !important; }
+
+        /* Flip specific icons in RTL */
+        html[dir="rtl"] .rtl-flip {
+            transform: scaleX(-1);
+        }
+
+        /* =====================================================
+           RESET & BASE
+        ===================================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            overflow-x: hidden;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+            object-fit: cover;
+            object-position: top center; 
+        }
+
+        a { text-decoration: none; color: inherit; }
+        button, input { font: inherit; }
+        button { cursor: pointer; border: none; background: none; }
+        ul { list-style: none; }
+
+        /* =====================================================
+           GLOBAL UTILITIES
+        ===================================================== */
+        .container {
+            width: min(calc(100% - 48px), var(--container));
+            margin-inline: auto;
+        }
+
+        .section {
+            padding: clamp(80px, 9vw, 130px) 0;
+        }
+
+        .section-header {
+            max-width: 700px;
+            margin-bottom: 60px;
+        }
+
+        .section-header.center {
+            text-align: center;
+            margin-inline: auto;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-dark);
+            background: var(--primary-light);
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: .02em;
+            margin-bottom: 18px;
+            box-shadow: 0 2px 10px rgba(16, 185, 129, 0.1);
+        }
+
+        .eyebrow::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--primary);
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            line-height: 1.3;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        .section-description {
+            color: var(--text-soft);
+            font-size: 1.1rem;
+            max-width: 65ch;
+        }
+
+        /* =====================================================
+           BUTTONS
+        ===================================================== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            min-height: 52px;
+            padding: 0 28px;
+            border-radius: var(--radius-sm);
+            font-size: 0.95rem;
+            font-weight: 700;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            color: #fff !important;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.25);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 18px 35px rgba(16, 185, 129, 0.35);
+        }
+
+        .btn-secondary {
+            color: var(--primary-dark);
+            background: var(--white);
+            border: 2px solid var(--primary-light);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-light);
+            border-color: var(--primary);
+            transform: translateY(-4px);
+        }
+
+        .btn i {
+            font-size: 1.1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .btn:hover i.rtl-flip {
+            transform: translateX(4px);
+        }
+        
+        html[dir="rtl"] .btn:hover i.rtl-flip {
+            transform: scaleX(-1) translateX(-4px);
+        }
+
+        /* =====================================================
+           NAVBAR
+        ===================================================== */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            transition: var(--transition);
+        }
+        
+        body:not(.dark-mode) .navbar {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+        }
+
+        .nav-inner {
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.35rem;
+            font-weight: 900;
+        }
+
+        .logo-mark {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            color: #fff;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 14px;
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .logo-mark i {
+            font-size: 1.2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 38px;
+        }
+
+        .nav-links a {
+            position: relative;
+            color: var(--text-soft);
+            font-size: 1rem;
+            font-weight: 700;
+            transition: var(--transition);
+            padding: 8px 0;
+        }
+
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            inset-inline-end: 0; 
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            border-radius: 10px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover { color: var(--primary); }
+        .nav-links a:hover::after { width: 100%; }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .icon-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--white);
+            color: var(--text);
+            display: grid;
+            place-items: center;
+            font-size: 1.2rem;
+            transition: var(--transition);
+            font-weight: bold;
+        }
+        .icon-btn:hover {
+            background: var(--primary-light);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .mobile-toggle {
+            display: none;
+            width: 44px;
+            height: 44px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--white);
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+        }
+
+        .mobile-toggle span {
+            display: block;
+            width: 22px;
+            height: 2px;
+            background: var(--text);
+            transition: 0.3s ease;
+        }
+
+        #menu-toggle:checked ~ .nav-actions .mobile-toggle span:nth-child(1) {
+            transform: translateY(6px) rotate(45deg);
+        }
+        #menu-toggle:checked ~ .nav-actions .mobile-toggle span:nth-child(2) {
+            opacity: 0;
+        }
+        #menu-toggle:checked ~ .nav-actions .mobile-toggle span:nth-child(3) {
+            transform: translateY(-6px) rotate(-45deg);
+        }
+
+        /* =====================================================
+           HERO SECTION
+        ===================================================== */
+        .hero {
+            position: relative;
+            min-height: calc(100vh - 80px);
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            background: radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.08), transparent 40%),
+                        radial-gradient(circle at 90% 90%, rgba(15, 118, 110, 0.08), transparent 35%),
+                        var(--bg);
+        }
+
+        .hero::before, .hero::after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid rgba(16, 185, 129, 0.15);
+            animation: rotateSlow 25s linear infinite;
+            pointer-events: none;
+        }
+
+        .hero::before {
+            width: 600px;
+            height: 600px;
+            inset-inline-start: -200px;
+            top: -150px;
+        }
+
+        .hero::after {
+            width: 400px;
+            height: 400px;
+            inset-inline-end: -150px;
+            bottom: -150px;
+            animation-direction: reverse;
+        }
+
+        .hero-grid {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            align-items: center;
+            gap: clamp(40px, 6vw, 80px);
+            padding: clamp(50px, 6vw, 100px) 0;
+        }
+
+        .hero-h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            line-height: 1.3;
+            margin-bottom: 24px;
+            font-weight: 900;
+            color: var(--text); /* اللون الداكن للقسم الأول من النص */
+        }
+
+        /* تخصيص الجزء المتدرج بناءً على الصورة المرفقة */
+        .hero-h1 .highlight-text {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+
+        .hero-description {
+            color: var(--text-soft);
+            font-size: 1.15rem;
+            margin-bottom: 35px;
+            max-width: 580px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 45px;
+        }
+
+        .trust-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            color: var(--text-soft);
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .avatars {
+            display: flex;
+        }
+
+        .avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 3px solid var(--bg);
+            overflow: hidden;
+            margin-inline-end: -12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .avatar:last-child {
+            margin-inline-end: 0;
+        }
+
+        /* =====================================================
+           HERO VISUAL & INTERACTIVE CARDS
+        ===================================================== */
+        .hero-visual {
+            position: relative;
+            min-height: 520px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .medical-orbit {
+            position: absolute;
+            width: min(460px, 85vw);
+            aspect-ratio: 1;
+            border-radius: 50%;
+            border: 1px dashed rgba(16, 185, 129, 0.4);
+            animation: rotateSlow 20s linear infinite;
+        }
+
+        .doctor-card {
+            position: relative;
+            z-index: 3;
+            width: min(360px, 80vw);
+            padding: 28px;
+            background: rgba(var(--white), 0.92);
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            animation: floatCard 6s ease-in-out infinite;
+        }
+
+        .doctor-top {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 24px;
+        }
+
+        .doctor-photo {
+            width: 72px;
+            height: 72px;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.2);
+            border: 2px solid var(--primary-light);
+        }
+        .doctor-photo img { width: 100%; height: 100%; }
+
+        .doctor-info h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 4px; }
+        .doctor-info p { color: var(--text-soft); font-size: 0.9rem; }
+
+        .verified {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--primary-dark);
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-top: 6px;
+            background: var(--primary-light);
+            padding: 4px 10px;
+            border-radius: 99px;
+        }
+
+        .appointment-box {
+            padding: 20px;
+            background: var(--primary-light);
+            border-radius: var(--radius-sm);
+            margin-bottom: 16px;
+            border: 1px solid rgba(16, 185, 129, 0.15);
+        }
+
+        .appointment-label {
+            color: var(--text-soft);
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .appointment-time {
+            color: var(--primary-dark);
+            font-size: 1.25rem;
+            font-weight: 900;
+        }
+
+        .appointment-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.85rem;
+        }
+
+        .available {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--primary-dark);
+            font-weight: 700;
+        }
+        .available::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--primary);
+        }
+        .rating { color: #f59e0b; font-weight: 700; }
+
+        .floating-card {
+            position: absolute;
+            z-index: 5;
+            background: var(--white);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-md);
+            border-radius: var(--radius-sm);
+            padding: 16px 20px;
+            animation: floatSmall 4.5s ease-in-out infinite;
+        }
+
+        .floating-card.top {
+            top: 8%;
+            inset-inline-start: -10px;
+        }
+        .floating-card.bottom {
+            bottom: 12%;
+            inset-inline-end: -10px;
+            animation-delay: 1.5s;
+        }
+
+        .floating-content {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .floating-icon {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            color: var(--primary-dark);
+            background: var(--primary-light);
+            font-size: 1.2rem;
+        }
+
+        .floating-text strong { display: block; font-size: 0.9rem; font-weight: 700; }
+        .floating-text span { color: var(--text-soft); font-size: 0.75rem; }
+
+        /* =====================================================
+           STATS SECTION
+        ===================================================== */
+        .stats {
+            background: var(--white);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            padding: 40px 0;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 15px 20px;
+            border-inline-start: 1px solid var(--border);
+            transition: var(--transition);
+        }
+        .stat:hover { transform: translateY(-3px); }
+        .stat:first-child { border-inline-start: none; }
+
+        .stat strong {
+            display: block;
+            background: linear-gradient(135deg, var(--primary-dark), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2.2rem;
+            font-weight: 900;
+            margin-bottom: 4px;
+        }
+        .stat span { color: var(--text-soft); font-size: 1rem; font-weight: 700; }
+
+        /* =====================================================
+           SERVICES SECTION
+        ===================================================== */
+        .services { background: var(--white); }
+        .service-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 30px;
+        }
+
+        .service-card {
+            position: relative;
+            overflow: hidden;
+            padding: 40px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--white);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-md);
+            border-color: rgba(16, 185, 129, 0.4);
+        }
+
+        .service-card.large { min-height: 360px; background: var(--white); }
+        .service-card.large::after {
+            content: "";
+            position: absolute;
+            width: 240px;
+            height: 240px;
+            border-radius: 50%;
+            inset-inline-start: -80px;
+            bottom: -80px;
+            background: rgba(16, 185, 129, 0.08);
+            pointer-events: none;
+        }
+
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            display: grid;
+            place-items: center;
+            color: var(--primary-dark);
+            background: var(--primary-light);
+            border-radius: var(--radius-sm);
+            margin-bottom: 28px;
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.15);
+            font-size: 1.5rem;
+        }
+
+        .service-card h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: 14px; }
+        .service-card p { color: var(--text-soft); font-size: 1rem; max-width: 50ch; }
+
+        .service-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 30px;
+            color: var(--primary-dark);
+            font-size: 0.95rem;
+            font-weight: 800;
+        }
+        .service-link i { transition: transform 0.3s ease; }
+        .service-card:hover .service-link i.rtl-flip { transform: translateX(6px); }
+        html[dir="rtl"] .service-card:hover .service-link i.rtl-flip { transform: scaleX(-1) translateX(-6px); }
+
+        .service-side { display: grid; gap: 30px; }
+        .service-side .service-card { min-height: 165px; padding: 30px; }
+
+        /* =====================================================
+           HOW IT WORKS SECTION
+        ===================================================== */
+        .how-it-works { background: var(--bg); }
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        .step {
+            position: relative;
+            padding: 40px 30px;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+        }
+        .step:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-md);
+            border-color: rgba(16, 185, 129, 0.4);
+        }
+        .step-number {
+            width: 52px;
+            height: 52px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #fff;
+            font-weight: 900;
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.25);
+        }
+        .step h3 { margin-bottom: 12px; font-size: 1.25rem; font-weight: 800; }
+        .step p { color: var(--text-soft); font-size: 1rem; }
+
+        /* =====================================================
+           ABOUT & FAQ
+        ===================================================== */
+        .about-section { background: var(--white); border-top: 1px solid var(--border); }
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+        .about-image { border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-md); }
+        .about-content h3 { font-size: 1.5rem; margin-bottom: 15px; color: var(--primary-dark); font-weight: 800; }
+        
+        .faq-section { background: var(--bg); }
+        .faq-list { display: flex; flex-direction: column; gap: 15px; max-width: 800px; margin: 0 auto; }
+        .faq-item {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+        .faq-item h4 { font-size: 1.1rem; font-weight: 800; margin-bottom: 10px; color: var(--primary-dark); }
+        .faq-item p { color: var(--text-soft); }
+
+        /* =====================================================
+           DOCTORS SECTION
+        ===================================================== */
+        .doctors { background: var(--white); }
+        .doctor-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .doctor-profile {
+            overflow: hidden;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+        }
+        .doctor-profile:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-md);
+            border-color: rgba(16, 185, 129, 0.4);
+        }
+        .doctor-cover { height: 220px; position: relative; background: var(--primary-light); overflow: hidden; }
+        .doctor-cover img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+        .doctor-profile:hover .doctor-cover img { transform: scale(1.08); }
+        
+        .doctor-avatar-badge {
+            position: absolute;
+            z-index: 2;
+            inset-inline-start: 20px;
+            bottom: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 6px 14px;
+            border-radius: 99px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+        body.dark-mode .doctor-avatar-badge { background: rgba(30, 41, 59, 0.95); }
+
+        .doctor-details { padding: 30px; }
+        .doctor-details h3 { font-size: 1.3rem; font-weight: 800; margin-bottom: 6px; }
+        .doctor-specialty { color: var(--primary-dark); font-size: 0.9rem; font-weight: 800; margin-bottom: 16px; }
+        .doctor-details p { color: var(--text-soft); font-size: 0.95rem; margin-bottom: 24px; }
+        .doctor-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+        .doctor-rating { display: flex; align-items: center; gap: 6px; color: var(--text-soft); }
+        .doctor-rating strong { color: var(--text); font-weight: 800; }
+        .doctor-exp {
+            font-weight: 800;
+            color: var(--primary-dark);
+            background: var(--primary-light);
+            padding: 4px 10px;
+            border-radius: 8px;
+        }
+
+        /* =====================================================
+           TESTIMONIALS SECTION
+        ===================================================== */
+        .testimonials { background: var(--bg); }
+        .testimonial-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 30px; }
+        .testimonial-intro {
+            padding: 45px;
+            border-radius: var(--radius-md);
+            background: linear-gradient(145deg, var(--primary-dark), var(--secondary));
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+        }
+        .testimonial-intro::before {
+            content: "“";
+            position: absolute;
+            font-size: 16rem;
+            line-height: 1;
+            inset-inline-start: -20px;
+            top: -30px;
+            color: rgba(255, 255, 255, 0.08);
+            font-family: serif;
+        }
+        .testimonial-intro h2 {
+            position: relative;
+            z-index: 1;
+            font-size: 2.2rem;
+            line-height: 1.4;
+            margin-bottom: 20px;
+            font-weight: 800;
+            color: #fff;
+        }
+        .testimonial-intro p { position: relative; z-index: 1; color: rgba(255, 255, 255, 0.85); font-size: 1.1rem; }
+        
+        .testimonial-cards { display: grid; gap: 20px; }
+        .testimonial {
+            padding: 30px;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+        }
+        .testimonial:hover {
+            transform: translateX(-8px);
+            box-shadow: var(--shadow-md);
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+        html[dir="rtl"] .testimonial:hover { transform: translateX(8px); }
+
+        .stars { color: #f59e0b; letter-spacing: 3px; font-size: 1rem; margin-bottom: 14px; }
+        .testimonial p { color: var(--text); font-size: 1rem; margin-bottom: 20px; line-height: 1.7; }
+        .testimonial-user { display: flex; align-items: center; gap: 14px; }
+        .testimonial-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid var(--primary-light);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+        .testimonial-user strong { display: block; font-size: 1rem; font-weight: 800; }
+        .testimonial-user span { color: var(--text-soft); font-size: 0.85rem; }
+
+        /* =====================================================
+           CTA SECTION
+        ===================================================== */
+        .cta { padding: 90px 0; }
+        .cta-box {
+            position: relative;
+            overflow: hidden;
+            padding: clamp(50px, 7vw, 85px);
+            border-radius: var(--radius-lg);
+            background: linear-gradient(135deg, var(--secondary), var(--primary-dark));
+            color: #fff;
+            box-shadow: var(--shadow-lg);
+        }
+        .cta-box::before, .cta-box::after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            pointer-events: none;
+        }
+        .cta-box::before { width: 400px; height: 400px; inset-inline-start: -150px; top: -180px; }
+        .cta-box::after { width: 300px; height: 300px; inset-inline-end: -140px; bottom: -160px; }
+        .cta-content { position: relative; z-index: 2; max-width: 750px; }
+        .cta h2 { font-size: clamp(2rem, 4.5vw, 3.4rem); line-height: 1.3; margin-bottom: 20px; font-weight: 900; }
+        .cta p { color: rgba(255, 255, 255, 0.85); max-width: 600px; font-size: 1.15rem; margin-bottom: 35px; }
+        .cta .btn-primary {
+            background: #fff;
+            color: var(--primary-dark) !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+        .cta .btn-primary:hover {
+            background: #f0fdf4;
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
+            transform: translateY(-4px);
+        }
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+        footer { background: #061512; color: #fff; padding-top: 80px; }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.6fr repeat(3, 1fr);
+            gap: 50px;
+            padding-bottom: 60px;
+        }
+        .footer-brand p {
+            max-width: 340px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+            margin-top: 20px;
+            line-height: 1.7;
+        }
+        .footer-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 22px; color: #fff; }
+        .footer-links { display: grid; gap: 12px; }
+        .footer-links a { color: rgba(255, 255, 255, 0.7); font-size: 0.95rem; transition: var(--transition); }
+        .footer-links a:hover {
+            color: #fff;
+            transform: translateX(4px);
+        }
+        html[dir="rtl"] .footer-links a:hover { transform: translateX(-4px); }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 25px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        .footer-bottom p, .footer-bottom a { color: rgba(255, 255, 255, 0.6); font-size: 0.9rem; }
+        .footer-legal { display: flex; gap: 24px; }
+
+        /* =====================================================
+           KEYFRAME ANIMATIONS
+        ===================================================== */
+        @keyframes floatCard {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-14px); }
+        }
+        @keyframes floatSmall {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        @keyframes rotateSlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* =====================================================
+           RESPONSIVE DESIGN
+        ===================================================== */
+        @media (max-width: 1024px) {
+            .doctor-grid, .steps, .stats-grid, .about-grid { grid-template-columns: repeat(2, 1fr); }
+            .hero-grid { grid-template-columns: 1fr; gap: 50px; text-align: center; }
+            .hero-content { display: flex; flex-direction: column; align-items: center; }
+            .hero-description { margin-inline: auto; }
+            .hero-buttons { justify-content: center; }
+            .trust-row { justify-content: center; }
+            .service-grid { grid-template-columns: 1fr; }
+            .service-side { grid-template-columns: repeat(2, 1fr); }
+            .testimonial-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1.5fr repeat(2, 1fr); }
+        }
+        
+        /* التعديلات الخاصة بالشاشات الصغيرة والموبايل - توسيط الفوتر */
+        @media (max-width: 768px) {
+            .doctor-grid, .steps, .stats-grid, .about-grid, .service-side { grid-template-columns: 1fr; }
+            .container { width: min(calc(100% - 32px), var(--container)); }
+            .nav-inner { height: 72px; }
+            
+            /* Navbar Mobile Styles */
+            .nav-links {
+                position: absolute;
+                top: 72px;
+                inset-inline-start: 16px;
+                inset-inline-end: 16px;
+                display: flex;
+                flex-direction: column;
+                align-items: stretch;
+                padding: 24px;
+                background: var(--surface);
+                border: 1px solid var(--border);
+                border-radius: var(--radius-md);
+                box-shadow: var(--shadow-md);
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(-15px);
+                transition: var(--transition);
+                z-index: 1001;
+            }
+            #menu-toggle:checked ~ .nav-links { opacity: 1; visibility: visible; transform: translateY(0); }
+            .nav-links a { padding: 12px 10px; border-bottom: 1px solid var(--border); }
+            .nav-links a:last-child { border-bottom: none; }
+            .nav-links a::after { display: block; bottom: -2px; }
+            .nav-actions .btn { display: none; }
+            .mobile-toggle { display: flex; }
+            
+            .stat:nth-child(-n+3) { border-inline-start: none; border-bottom: 1px solid var(--border); }
+            
+            /* Footer Centering on Mobile */
+            .footer-grid { 
+                grid-template-columns: 1fr; 
+                text-align: center; 
+                gap: 40px;
+            }
+            .footer-brand { 
+                grid-column: 1 / -1; 
+                display: flex; 
+                flex-direction: column; 
+                align-items: center; 
+            }
+            .footer-brand p { 
+                margin-inline: auto; 
+                text-align: center; 
+            }
+            .footer-links a:hover { 
+                transform: none; 
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-h1 { font-size: 2.2rem; }
+            .hero-buttons { flex-direction: column; width: 100%; }
+            .hero-buttons .btn { width: 100%; }
+            /* Center Footer Bottom Row */
+            .footer-bottom { 
+                flex-direction: column; 
+                align-items: center; 
+                text-align: center; 
+                gap: 15px;
+            }
+            .footer-legal { 
+                flex-wrap: wrap; 
+                justify-content: center; 
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+    <header class="navbar">
+        <div class="container nav-inner">
+            <a href="#" class="logo">
+                <span class="logo-mark">
+                    <i class="fas fa-heartbeat"></i>
+                </span>
+                <span class="en">HealthTech</span>
+                <span class="ar">هيلث تك</span>
+            </a>
+
+            <input type="checkbox" id="menu-toggle" hidden>
+
+            <nav class="nav-links">
+                <a href="#services">
+                    <span class="en">Services</span><span class="ar">خدماتنا</span>
+                </a>
+                <a href="#how-it-works">
+                    <span class="en">How it Works</span><span class="ar">كيف نعمل</span>
+                </a>
+                <a href="#doctors">
+                    <span class="en">Doctors</span><span class="ar">أطباؤنا</span>
+                </a>
+                <a href="#about">
+                    <span class="en">About Us</span><span class="ar">من نحن</span>
+                </a>
+                <a href="#faq">
+                    <span class="en">FAQ</span><span class="ar">الأسئلة الشائعة</span>
+                </a>
+            </nav>
+
+            <div class="nav-actions">
+                <!-- Theme Toggle -->
+                <button class="icon-btn" id="theme-toggle" aria-label="Toggle Dark Mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <!-- Language Toggle -->
+                <button class="icon-btn" id="lang-toggle" aria-label="Toggle Language" style="font-size: 0.95rem;">
+                    عربي
+                </button>
+                <a href="#appointment" class="btn btn-primary">
+                    <span class="en">Book Now</span><span class="ar">احجز موعداً</span>
+                </a>
+                <label for="menu-toggle" class="mobile-toggle">
+                    <span></span><span></span><span></span>
+                </label>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- =====================================================
+             HERO SECTION
+        ====================================================== -->
+        <section class="hero">
+            <div class="container hero-grid">
+                <div class="hero-content">
+                    <span class="eyebrow" data-aos="fade-down" data-aos-duration="600">
+                        <span class="en">Your Smart Health Platform</span>
+                        <span class="ar">منصتك الصحية الذكية</span>
+                    </span>
+                    
+                    <!-- تم تعديل هيكلة النص وتطبيق الكلاس الجديد لتلوين الكلمات بناءً على الصورة -->
+                    <h1 class="hero-h1" data-aos="fade-up" data-aos-delay="100">
+                        <span class="en">Healthcare that <br><span class="highlight-text">works around you.</span></span>
+                        <span class="ar">رعاية صحية <br><span class="highlight-text">تتمحور حولك.</span></span>
+                    </h1>
+                    
+                    <p class="hero-description" data-aos="fade-up" data-aos-delay="200">
+                        <span class="en">Connect with top medical professionals, manage your appointments easily, and take control of your health journey through one integrated platform.</span>
+                        <span class="ar">تواصل مع أفضل الكوادر الطبية الموثوقة، أدر مواعيدك بكل سهولة، وتحكم في مسار صحتك من خلال منصة واحدة متكاملة.</span>
+                    </p>
+                    
+                    <div class="hero-buttons" data-aos="fade-up" data-aos-delay="300">
+                        <a href="#appointment" class="btn btn-primary">
+                            <span class="en">Book Consultation</span>
+                            <span class="ar">احجز استشارتك الآن</span>
+                            <i class="fas fa-arrow-right rtl-flip"></i>
+                        </a>
+                        <a href="#how-it-works" class="btn btn-secondary">
+                            <span class="en">Explore Platform</span>
+                            <span class="ar">استكشف المنصة</span>
+                        </a>
+                    </div>
+
+                    <div class="trust-row" data-aos="fade-up" data-aos-delay="400">
+                        <div class="avatars">
+                            <span class="avatar"><img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?fm=webp&fit=crop&crop=faces,top&q=80&w=100" alt="Patient"></span>
+                            <span class="avatar"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fm=webp&fit=crop&crop=faces,top&q=80&w=100" alt="Patient"></span>
+                            <span class="avatar"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?fm=webp&fit=crop&crop=faces,top&q=80&w=100" alt="Patient"></span>
+                        </div>
+                        <span>
+                            <span class="en">Trusted by over 20,000 patients</span>
+                            <span class="ar">يحظى بثقة أكثر من 20,000 مريض</span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="hero-visual" data-aos="zoom-in" data-aos-duration="1000" data-aos-delay="200">
+                    <div class="medical-orbit"></div>
+
+                    <div class="floating-card top" data-aos="fade-left" data-aos-delay="500">
+                        <div class="floating-content">
+                            <div class="floating-icon">
+                                <i class="fas fa-notes-medical"></i>
+                            </div>
+                            <div class="floating-text">
+                                <strong class="en">Health Record</strong><strong class="ar">سجل صحي</strong>
+                                <span class="en">Updated Today</span><span class="ar">تم التحديث اليوم</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doctor-card">
+                        <div class="doctor-top">
+                            <div class="doctor-photo">
+                                <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?fm=webp&fit=crop&crop=faces,top&q=80&w=200" alt="Dr. Emily Carter">
+                            </div>
+                            <div class="doctor-info">
+                                <h3 class="en">Dr. Emily Carter</h3><h3 class="ar">د. إيميلي كارتر</h3>
+                                <p class="en">Cardiologist</p><p class="ar">طبيبة قلب</p>
+                                <span class="verified">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span class="en">Verified Doctor</span><span class="ar">طبيب موثق</span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="appointment-box">
+                            <div class="appointment-label">
+                                <span class="en">Next Available Appt</span><span class="ar">الموعد المتاح القادم</span>
+                            </div>
+                            <div class="appointment-time">
+                                <span class="en">Today, 04:30 PM</span><span class="ar">اليوم، 04:30 م</span>
+                            </div>
+                        </div>
+
+                        <div class="appointment-bottom">
+                            <span class="available">
+                                <span class="en">Available Now</span><span class="ar">متاح الآن</span>
+                            </span>
+                            <span class="rating">★ 4.9 / 5</span>
+                        </div>
+                    </div>
+
+                    <div class="floating-card bottom" data-aos="fade-right" data-aos-delay="600">
+                        <div class="floating-content">
+                            <div class="floating-icon">
+                                <i class="fas fa-heartbeat"></i>
+                            </div>
+                            <div class="floating-text">
+                                <strong class="en">Vitals Monitor</strong><strong class="ar">مراقبة الحيوية</strong>
+                                <span><span class="en">Heart Rate:</span><span class="ar">نبض القلب:</span> 72 BPM</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================
+             STATS SECTION
+        ====================================================== -->
+        <section class="stats">
+            <div class="container stats-grid">
+                <div class="stat" data-aos="fade-up" data-aos-delay="100">
+                    <strong>20K+</strong>
+                    <span class="en">Active Patients</span><span class="ar">مريض نشط</span>
+                </div>
+                <div class="stat" data-aos="fade-up" data-aos-delay="200">
+                    <strong>350+</strong>
+                    <span class="en">Care Specialists</span><span class="ar">أخصائي رعاية</span>
+                </div>
+                <div class="stat" data-aos="fade-up" data-aos-delay="300">
+                    <strong>98%</strong>
+                    <span class="en">Patient Satisfaction</span><span class="ar">رضا المرضى</span>
+                </div>
+                <div class="stat" data-aos="fade-up" data-aos-delay="400">
+                    <strong>24/7</strong>
+                    <span class="en">Digital Access</span><span class="ar">وصول رقمي</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================
+             SERVICES SECTION
+        ====================================================== -->
+        <section class="section services" id="services">
+            <div class="container">
+                <div class="section-header" data-aos="fade-up">
+                    <span class="eyebrow">
+                        <span class="en">Our Services</span><span class="ar">خدماتنا</span>
+                    </span>
+                    <h2 class="section-title">
+                        <span class="en">Everything you need for better healthcare.</span>
+                        <span class="ar">كل ما تحتاجه لرعاية صحية أفضل.</span>
+                    </h2>
+                    <p class="section-description">
+                        <span class="en">From finding the right specialist to managing your health records, HealthTech keeps your medical experience simple and connected.</span>
+                        <span class="ar">من العثور على الأخصائي المناسب إلى إدارة سجلاتك الصحية، تبقي منصة هيلث تك تجربتك الطبية بسيطة ومتصلة.</span>
+                    </p>
+                </div>
+
+                <div class="service-grid">
+                    <article class="service-card large" data-aos="fade-right" data-aos-delay="100">
+                        <div class="service-icon"><i class="fas fa-calendar-check"></i></div>
+                        <h3 class="en">Smart Appointments</h3><h3 class="ar">مواعيد ذكية</h3>
+                        <p class="en">Search for available specialists, compare appointment times, and book consultations without waiting on hold or making phone calls.</p>
+                        <p class="ar">ابحث عن الأخصائيين المتاحين، قارن أوقات المواعيد، واحجز استشاراتك بدون الحاجة لانتظار أو مكالمات هاتفية طويلة.</p>
+                        <a href="#appointment" class="service-link">
+                            <span class="en">Book Consultation</span><span class="ar">احجز استشارة</span>
+                            <i class="fas fa-arrow-right rtl-flip"></i>
+                        </a>
+                    </article>
+
+                    <div class="service-side">
+                        <article class="service-card" data-aos="fade-left" data-aos-delay="200">
+                            <div class="service-icon"><i class="fas fa-laptop-medical"></i></div>
+                            <h3 class="en">Virtual Care</h3><h3 class="ar">رعاية افتراضية</h3>
+                            <p class="en">Consult with specialists remotely with complete privacy and security from anywhere.</p>
+                            <p class="ar">استشر المختصين عن بُعد بكل خصوصية وأمان من أي مكان.</p>
+                        </article>
+
+                        <article class="service-card" data-aos="fade-left" data-aos-delay="300">
+                            <div class="service-icon"><i class="fas fa-file-medical-alt"></i></div>
+                            <h3 class="en">Digital Records</h3><h3 class="ar">سجلات رقمية</h3>
+                            <p class="en">Keep your medical information organized and easily accessible at all times.</p>
+                            <p class="ar">احتفظ بمعلوماتك الطبية منظمة ويسهل الوصول إليها دائماً.</p>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================
+             HOW IT WORKS
+        ====================================================== -->
+        <section class="section how-it-works" id="how-it-works">
+            <div class="container">
+                <div class="section-header center" data-aos="fade-up">
+                    <span class="eyebrow">
+                        <span class="en">How it works</span><span class="ar">كيف نعمل</span>
+                    </span>
+                    <h2 class="section-title">
+                        <span class="en">Healthcare made simple.</span><span class="ar">رعاية صحية بكل بساطة.</span>
+                    </h2>
+                    <p class="section-description">
+                        <span class="en">Three easy steps to connect with the doctor you need.</span>
+                        <span class="ar">ثلاث خطوات بسيطة للتواصل مع الطبيب الذي تحتاجه.</span>
+                    </p>
+                </div>
+
+                <div class="steps">
+                    <article class="step" data-aos="fade-up" data-aos-delay="100">
+                        <div class="step-number">01</div>
+                        <h3 class="en">Choose a Specialist</h3><h3 class="ar">اختر الأخصائي</h3>
+                        <p class="en">Search our list of verified doctors based on specialty, rating, and location.</p>
+                        <p class="ar">ابحث عبر قائمة الأطباء الموثقين بناءً على التخصص، التقييم، والموقع الجغرافي.</p>
+                    </article>
+
+                    <article class="step" data-aos="fade-up" data-aos-delay="200">
+                        <div class="step-number">02</div>
+                        <h3 class="en">Book Appointment</h3><h3 class="ar">حدد الموعد</h3>
+                        <p class="en">Pick a time that fits your schedule and confirm your booking in seconds.</p>
+                        <p class="ar">اختر الوقت الذي يناسب جدولك الزمني وقم بتأكيد الحجز خلال ثوانٍ.</p>
+                    </article>
+
+                    <article class="step" data-aos="fade-up" data-aos-delay="300">
+                        <div class="step-number">03</div>
+                        <h3 class="en">Get Care</h3><h3 class="ar">احصل على الرعاية</h3>
+                        <p class="en">Attend your consultation either in-person or remotely and follow your treatment plan.</p>
+                        <p class="ar">احضر استشارتك سواء حضورياً أو عن بعد وتابع خطتك العلاجية.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================
+             DOCTORS SECTION
+        ====================================================== -->
+        <section class="section doctors" id="doctors">
+            <div class="container">
+                <div class="section-header center" data-aos="fade-up">
+                    <span class="eyebrow">
+                        <span class="en">Trusted Specialists</span><span class="ar">أخصائيون موثوقون</span>
+                    </span>
+                    <h2 class="section-title">
+                        <span class="en">Meet our medical staff.</span><span class="ar">تعرف على كادرنا الطبي.</span>
+                    </h2>
+                    <p class="section-description">
+                        <span class="en">Highly experienced doctors committed to providing thoughtful and accessible healthcare.</span>
+                        <span class="ar">أطباء ذوو خبرة عالية ملتزمون بتقديم رعاية صحية مدروسة ومتاحة للجميع.</span>
+                    </p>
+                </div>
+
+                <div class="doctor-grid">
+                    <article class="doctor-profile" data-aos="fade-up" data-aos-delay="100">
+                        <div class="doctor-cover">
+                            <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?fm=webp&fit=crop&crop=faces,top&q=80&w=400" alt="Dr. Emily Carter">
+                            <span class="doctor-avatar-badge">
+                                <span class="en">Cardiology</span><span class="ar">قلبية</span>
+                            </span>
+                        </div>
+                        <div class="doctor-details">
+                            <h3 class="en">Dr. Emily Carter</h3><h3 class="ar">د. إيميلي كارتر</h3>
+                            <div class="doctor-specialty">
+                                <span class="en">Cardiologist</span><span class="ar">أخصائية أمراض القلب</span>
+                            </div>
+                            <p class="en">Focuses on preventive heart care and long-term cardiovascular health.</p>
+                            <p class="ar">تركز على الرعاية الوقائية للقلب وصحة الأوعية الدموية على المدى الطويل.</p>
+                            <div class="doctor-meta">
+                                <span class="doctor-rating">★ <strong>4.9</strong> (120)</span>
+                                <span class="doctor-exp">
+                                    <span class="en">12 yrs exp</span><span class="ar">خبرة 12 سنة</span>
+                                </span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="doctor-profile" data-aos="fade-up" data-aos-delay="200">
+                        <div class="doctor-cover">
+                            <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?fm=webp&fit=crop&crop=faces,top&q=80&w=400" alt="Dr. Daniel Wilson">
+                            <span class="doctor-avatar-badge">
+                                <span class="en">Neurology</span><span class="ar">عصبية</span>
+                            </span>
+                        </div>
+                        <div class="doctor-details">
+                            <h3 class="en">Dr. Daniel Wilson</h3><h3 class="ar">د. دانييل ويلسون</h3>
+                            <div class="doctor-specialty">
+                                <span class="en">Neurologist</span><span class="ar">أخصائي طب الأعصاب</span>
+                            </div>
+                            <p class="en">Helping patients understand, manage, and diagnose complex neurological conditions.</p>
+                            <p class="ar">مساعدة المرضى على فهم وإدارة الحالات العصبية المعقدة وتشخيصها.</p>
+                            <div class="doctor-meta">
+                                <span class="doctor-rating">★ <strong>4.8</strong> (96)</span>
+                                <span class="doctor-exp">
+                                    <span class="en">10 yrs exp</span><span class="ar">خبرة 10 سنوات</span>
+                                </span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="doctor-profile" data-aos="fade-up" data-aos-delay="300">
+                        <div class="doctor-cover">
+                            <img src="https://images.unsplash.com/photo-1527613426441-4da17471b66d?fm=webp&fit=crop&crop=faces,top&q=80&w=400" alt="Dr. Sarah Mitchell">
+                            <span class="doctor-avatar-badge">
+                                <span class="en">Family Med</span><span class="ar">طب الأسرة</span>
+                            </span>
+                        </div>
+                        <div class="doctor-details">
+                            <h3 class="en">Dr. Sarah Mitchell</h3><h3 class="ar">د. سارة ميتشل</h3>
+                            <div class="doctor-specialty">
+                                <span class="en">Family Physician</span><span class="ar">طبيبة أسرة</span>
+                            </div>
+                            <p class="en">Providing comprehensive care for patients and families at all stages of life.</p>
+                            <p class="ar">تقديم رعاية شاملة للمرضى والعائلات في جميع مراحل الحياة.</p>
+                            <div class="doctor-meta">
+                                <span class="doctor-rating">★ <strong>4.9</strong> (143)</span>
+                                <span class="doctor-exp">
+                                    <span class="en">14 yrs exp</span><span class="ar">خبرة 14 سنة</span>
+                                </span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================
+             ABOUT US
+        ====================================================== -->
+        <section class="section about-section" id="about">
+            <div class="container about-grid">
+                <div class="about-image" data-aos="fade-right">
+                    <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?fm=webp&fit=crop&q=80&w=800" alt="Vision">
+                </div>
+                <div class="about-content" data-aos="fade-left">
+                    <span class="eyebrow">
+                        <span class="en">About Us</span><span class="ar">من نحن</span>
+                    </span>
+                    <h2 class="section-title">
+                        <span class="en">Our vision for an integrated healthcare community</span>
+                        <span class="ar">رؤيتنا نحو مجتمع صحي متكامل</span>
+                    </h2>
+                    
+                    <h3 class="en">Our Mission</h3><h3 class="ar">مهمتنا</h3>
+                    <p class="section-description" style="margin-bottom: 20px;">
+                        <span class="en"><strong>HealthTech</strong> was launched with the belief that access to high-quality healthcare should be easy and accessible to everyone. We merge the latest digital technologies with deep medical expertise to provide a safe and smart environment.</span>
+                        <span class="ar">انطلقت منصة <strong>هيلث تك</strong> إيماناً منا بأن الحصول على رعاية صحية عالية الجودة يجب أن يكون أمراً يسيراً وفي متناول الجميع. نحن ندمج بين أحدث التقنيات الرقمية والخبرات الطبية العريقة لنوفر لك بيئة آمنة وذكية.</span>
+                    </p>
+                    
+                    <h3 class="en">Our Values</h3><h3 class="ar">قيمنا</h3>
+                    <p class="section-description">
+                        <span class="en">We are committed to the strict confidentiality of your data and strive to provide a certified and reliable medical staff. We continuously seek to develop the patient experience to be more flexible and comfortable.</span>
+                        <span class="ar">نلتزم بالسرية التامة لبياناتك، ونحرص على توفير كادر طبي معتمد وموثوق. نسعى لتطوير تجربة المريض بشكل دائم لتكون أكثر مرونة وراحة.</span>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================
+             FAQ SECTION
+        ====================================================== -->
+        <section class="section faq-section" id="faq">
+            <div class="container">
+                <div class="section-header center" data-aos="fade-up">
+                    <span class="eyebrow">
+                        <span class="en">Inquiries</span><span class="ar">استفسارات</span>
+                    </span>
+                    <h2 class="section-title">
+                        <span class="en">Frequently Asked Questions</span><span class="ar">الأسئلة الشائعة</span>
+                    </h2>
+                    <p class="section-description">
+                        <span class="en">Quick answers to the most common questions asked by platform users.</span>
+                        <span class="ar">إجابات سريعة لأكثر الأسئلة التي يطرحها مستخدمو المنصة.</span>
+                    </p>
+                </div>
+                
+                <div class="faq-list">
+                    <div class="faq-item" data-aos="fade-up" data-aos-delay="100">
+                        <h4 class="en">How can I book an appointment with a doctor?</h4>
+                        <h4 class="ar">كيف يمكنني حجز موعد مع طبيب؟</h4>
+                        <p class="en">Simply create an account, browse the list of doctors by the specialty you need, select the appropriate doctor, and click "Book Now" to schedule a time.</p>
+                        <p class="ar">ببساطة، قم بإنشاء حساب، ثم تصفح قائمة الأطباء حسب التخصص الذي تريده، اختر الطبيب المناسب واضغط على زر "احجز موعداً" لتحديد الوقت.</p>
+                    </div>
+                    <div class="faq-item" data-aos="fade-up" data-aos-delay="200">
+                        <h4 class="en">Are remote consultations always available?</h4>
+                        <h4 class="ar">هل الاستشارات عن بُعد متوفرة دائمًا؟</h4>
+                        <p class="en">Yes, many of our doctors offer virtual consultation services. You can select "Virtual Care" while searching for an appointment.</p>
+                        <p class="ar">نعم، العديد من أطبائنا يقدمون خدمة الاستشارة الافتراضية. يمكنك اختيار "رعاية افتراضية" أثناء البحث عن موعد.</p>
+                    </div>
+                    <div class="faq-item" data-aos="fade-up" data-aos-delay="300">
+                        <h4 class="en">Is my medical data secure?</h4>
+                        <h4 class="ar">هل بياناتي الطبية آمنة؟</h4>
+                        <p class="en">We use the latest encryption protocols to ensure 100% confidentiality and safety of your medical records and personal information.</p>
+                        <p class="ar">نحن نستخدم أحدث بروتوكولات التشفير لضمان سرية وسلامة سجلاتك الطبية ومعلوماتك الشخصية بنسبة 100%.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================
+             TESTIMONIALS SECTION
+        ====================================================== -->
+        <section class="section testimonials" id="testimonials">
+            <div class="container testimonial-grid">
+                <div class="testimonial-intro" data-aos="fade-right">
+                    <span class="eyebrow">
+                        <span class="en">Patient Stories</span><span class="ar">قصص المرضى</span>
+                    </span>
+                    <h2 class="en">Better healthcare starts with a better experience.</h2>
+                    <h2 class="ar">رعاية صحية أفضل تبدأ بتجربة أفضل.</h2>
+                    <p class="en">Discover how patients use HealthTech to make everyday healthcare easier and clearer.</p>
+                    <p class="ar">اكتشف كيف يستخدم المرضى منصة هيلث تك لجعل الرعاية الصحية اليومية أسهل وأكثر وضوحاً.</p>
+                </div>
+
+                <div class="testimonial-cards">
+                    <article class="testimonial" data-aos="fade-left" data-aos-delay="100">
+                        <div class="stars">★★★★★</div>
+                        <p class="en">"Booking my appointment took less than a minute. I was able to see available doctors instantly and choose the time that suited me seamlessly."</p>
+                        <p class="ar">"استغرق حجز موعدي أقل من دقيقة. تمكنت من رؤية الأطباء المتاحين فوراً واختيار الوقت الذي يناسبني بكل سلاسة."</p>
+                        <div class="testimonial-user">
+                            <div class="testimonial-avatar">
+                                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?fm=webp&fit=crop&crop=faces,top&q=80&w=100" alt="Anna Morgan">
+                            </div>
+                            <div>
+                                <strong class="en">Anna Morgan</strong><strong class="ar">آنا مورغان</strong>
+                                <span>
+                                    <span class="en">HealthTech Patient</span><span class="ar">مريضة في هيلث تك</span>
+                                </span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="testimonial" data-aos="fade-left" data-aos-delay="200">
+                        <div class="stars">★★★★★</div>
+                        <p class="en">"The platform makes it very easy to track appointments and important health information without any hassle or extra paperwork."</p>
+                        <p class="ar">"تجعل المنصة من السهل جداً تتبع المواعيد والمعلومات الصحية الهامة دون أي متاعب أو أوراق إضافية."</p>
+                        <div class="testimonial-user">
+                            <div class="testimonial-avatar">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fm=webp&fit=crop&crop=faces,top&q=80&w=100" alt="James Reed">
+                            </div>
+                            <div>
+                                <strong class="en">James Reed</strong><strong class="ar">جيمس ريد</strong>
+                                <span>
+                                    <span class="en">HealthTech Patient</span><span class="ar">مريض في هيلث تك</span>
+                                </span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================
+             CTA SECTION
+        ====================================================== -->
+        <section class="cta" id="appointment">
+            <div class="container">
+                <div class="cta-box" data-aos="zoom-in" data-aos-duration="800">
+                    <div class="cta-content">
+                        <span class="eyebrow">
+                            <span class="en">Your Health Matters</span><span class="ar">صحتك تهمنا</span>
+                        </span>
+                        <h2 class="en">Ready to take the next step in your health journey?</h2>
+                        <h2 class="ar">هل أنت مستعد لاتخاذ الخطوة التالية في رحلة صحتك؟</h2>
+                        <p class="en">Find a trusted healthcare professional and schedule your next appointment today.</p>
+                        <p class="ar">ابحث عن أخصائي رعاية صحية موثوق وحدد موعدك القادم اليوم.</p>
+                        <a href="#" class="btn btn-primary">
+                            <span class="en">Book Now</span><span class="ar">حدد موعدك الآن</span>
+                            <i class="fas fa-arrow-right rtl-flip"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand" data-aos="fade-up" data-aos-delay="100">
+                    <a href="#" class="logo" style="color: white;">
+                        <span class="logo-mark"><i class="fas fa-heartbeat"></i></span>
+                        <span class="en">HealthTech</span><span class="ar">هيلث تك</span>
+                    </a>
+                    <p class="en">A modern digital healthcare platform designed to make accessing high-quality care easier and more flexible.</p>
+                    <p class="ar">منصة رعاية صحية رقمية حديثة صُممت لجعل الوصول إلى رعاية عالية الجودة أسهل وأكثر مرونة.</p>
+                </div>
+
+                <div data-aos="fade-up" data-aos-delay="200">
+                    <h4 class="footer-title">
+                        <span class="en">Platform</span><span class="ar">المنصة</span>
+                    </h4>
+                    <div class="footer-links">
+                        <a href="#services"><span class="en">Services</span><span class="ar">خدماتنا</span></a>
+                        <a href="#doctors"><span class="en">Doctors</span><span class="ar">أطباؤنا</span></a>
+                        <a href="#how-it-works"><span class="en">How it Works</span><span class="ar">كيف نعمل</span></a>
+                        <a href="#appointment"><span class="en">Booking</span><span class="ar">الحجوزات</span></a>
+                    </div>
+                </div>
+
+                <div data-aos="fade-up" data-aos-delay="300">
+                    <h4 class="footer-title">
+                        <span class="en">Company</span><span class="ar">الشركة</span>
+                    </h4>
+                    <div class="footer-links">
+                        <a href="#about"><span class="en">About Us</span><span class="ar">من نحن</span></a>
+                        <a href="#"><span class="en">Careers</span><span class="ar">الوظائف</span></a>
+                        <a href="#"><span class="en">Contact</span><span class="ar">اتصل بنا</span></a>
+                        <a href="#faq"><span class="en">Help Center</span><span class="ar">مركز المساعدة</span></a>
+                    </div>
+                </div>
+
+                <div data-aos="fade-up" data-aos-delay="400">
+                    <h4 class="footer-title">
+                        <span class="en">Legal</span><span class="ar">قانوني</span>
+                    </h4>
+                    <div class="footer-links">
+                        <a href="#"><span class="en">Privacy Policy</span><span class="ar">سياسة الخصوصية</span></a>
+                        <a href="#"><span class="en">Terms of Service</span><span class="ar">شروط الخدمة</span></a>
+                        <a href="#"><span class="en">Data Protection</span><span class="ar">حماية البيانات</span></a>
+                        <a href="#"><span class="en">Accessibility</span><span class="ar">إمكانية الوصول</span></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>
+                    <span class="en">© 2026 HealthTech. All rights reserved.</span>
+                    <span class="ar">© 2026 هيلث تك. جميع الحقوق محفوظة.</span>
+                </p>
+                <div class="footer-legal">
+                    <a href="#"><span class="en">Privacy</span><span class="ar">الخصوصية</span></a>
+                    <a href="#"><span class="en">Terms</span><span class="ar">الشروط</span></a>
+                    <a href="#"><span class="en">Data</span><span class="ar">البيانات</span></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AOS JS Script -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,        
+            once: true,           
+            easing: 'ease-out-cubic',
+            offset: 80,           
+        });
+
+        // Dark Mode Toggle Logic
+        const themeBtn = document.getElementById('theme-toggle');
+        const themeIcon = themeBtn.querySelector('i');
+        const body = document.body;
+
+        themeBtn.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            if (body.classList.contains('dark-mode')) {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            } else {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+        });
+
+        // Language Toggle Logic
+        const langBtn = document.getElementById('lang-toggle');
+        const html = document.documentElement;
+
+        langBtn.addEventListener('click', () => {
+            const currentLang = html.getAttribute('lang');
+            if (currentLang === 'en') {
+                // Switch to Arabic
+                html.setAttribute('lang', 'ar');
+                html.setAttribute('dir', 'rtl');
+                langBtn.textContent = 'EN';
+                document.title = 'هيلث تك | منصة الرعاية الصحية';
+            } else {
+                // Switch to English
+                html.setAttribute('lang', 'en');
+                html.setAttribute('dir', 'ltr');
+                langBtn.textContent = 'عربي';
+                document.title = 'HealthTech | Healthcare Platform';
+            }
+        });
+    </script>
+</body>
+</html>
